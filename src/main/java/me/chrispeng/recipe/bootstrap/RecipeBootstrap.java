@@ -45,7 +45,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 		perfectGuacamole.setPrepTime(10);
 		perfectGuacamole.setCookTime(30);
 		perfectGuacamole.setDifficulty(Difficulty.MODERATE);
-		perfectGuacamole.setDescription("The BEST guacamole! So easy to make with ripe avocados, salt, serrano chiles, cilantro and lime. Garnish with red radishes or jicama. Serve with tortilla chips.");
+		perfectGuacamole.setDescription("The BEST guacamole!");
 		Note notes = new Note() ;
 		notes.setRecipeNotes("Be careful handling chiles if using. Wash your hands thoroughly after handling and do not touch your eyes or the area near your eyes with your hands for several hours.");
 		notes.setRecipe(perfectGuacamole);
@@ -107,7 +107,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 		perfectGuacamole.setDirections("");
 
 		Recipe spicyGrilledChikenTacos = new Recipe();
-		spicyGrilledChikenTacos.setDescription("Spicy grilled chicken tacos! Quick marinade, then grill. Ready in about 30 minutes. Great for a quick weeknight dinner, backyard cookouts, and tailgate parties.");
+		spicyGrilledChikenTacos.setDescription("Spicy grilled chicken tacos!");
 		spicyGrilledChikenTacos.setDirections("");
 		spicyGrilledChikenTacos.setUrl("https://www.simplyrecipes.com/recipes/spicy_grilled_chicken_tacos/");
 		spicyGrilledChikenTacos.getCategories().add(categoryRepository.findByDescription("Italian").get());
