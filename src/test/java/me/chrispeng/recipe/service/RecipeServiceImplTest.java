@@ -1,5 +1,7 @@
 package me.chrispeng.recipe.service;
 
+import me.chrispeng.recipe.converters.RecipeCommandToRecipe;
+import me.chrispeng.recipe.converters.RecipeToRecipeCommand;
 import me.chrispeng.recipe.domain.Recipe;
 import me.chrispeng.recipe.repositories.RecipeRepository;
 import org.junit.Before;
@@ -20,12 +22,18 @@ public class RecipeServiceImplTest {
 	private RecipeServiceImpl recipeService;
 
 	@Mock
+	private RecipeToRecipeCommand recipeToRecipeCommand;
+
+	@Mock
+	private RecipeCommandToRecipe recipeCommandToRecipe;
+
+	@Mock
 	private RecipeRepository recipeRepository;
 
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-		recipeService = new RecipeServiceImpl(recipeRepository, recipeToRecipeCommand);
+		recipeService = new RecipeServiceImpl(recipeRepository, recipeToRecipeCommand, recipeCommandToRecipe);
 	}
 
 	@Test

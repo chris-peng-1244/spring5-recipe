@@ -2,6 +2,7 @@ package me.chrispeng.recipe.service;
 
 import lombok.extern.slf4j.Slf4j;
 import me.chrispeng.recipe.commands.RecipeCommand;
+import me.chrispeng.recipe.converters.RecipeCommandToRecipe;
 import me.chrispeng.recipe.converters.RecipeToRecipeCommand;
 import me.chrispeng.recipe.domain.Recipe;
 import me.chrispeng.recipe.repositories.RecipeRepository;
@@ -20,9 +21,12 @@ public class RecipeServiceImpl implements RecipeService{
 	private final RecipeCommandToRecipe recipeCommandToRecipe;
 
 
-	public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeToRecipeCommand recipeToRecipeCommand) {
+	public RecipeServiceImpl(RecipeRepository recipeRepository,
+	                         RecipeToRecipeCommand recipeToRecipeCommand,
+	                         RecipeCommandToRecipe recipeCommandToRecipe) {
 		this.recipeRepository = recipeRepository;
 		this.recipeToRecipeCommand = recipeToRecipeCommand;
+		this.recipeCommandToRecipe = recipeCommandToRecipe;
 	}
 
 	public Set<Recipe> getRecipes() {
