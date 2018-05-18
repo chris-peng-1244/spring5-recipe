@@ -1,11 +1,13 @@
 package me.chrispeng.recipe.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import me.chrispeng.recipe.commands.RecipeCommand;
 import me.chrispeng.recipe.service.RecipeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @Controller
 public class RecipeController {
 	private final RecipeService recipeService;
@@ -39,4 +41,13 @@ public class RecipeController {
 		return "redirect:/recipe/" + savedCommand.getId() + "/show";
 	}
 
+
+	@RequestMapping("/recipe/{id}/delete")
+	public String deleteRecipe(@PathVariable String id)
+	{
+		log.debug("Delete recipe: " + id);
+		Long idValue = Long.valueOf(id);
+		recipeService.deleteById(idValue);
+		return "redirect:/";
+	}
 }
