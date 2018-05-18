@@ -1,5 +1,6 @@
 package me.chrispeng.recipe.controllers;
 
+import me.chrispeng.recipe.service.IngredientService;
 import me.chrispeng.recipe.service.RecipeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +13,11 @@ public class IngredientController {
 
 	private RecipeService recipeService;
 
-	public IngredientController(RecipeService recipeService) {
+	private IngredientService ingredientService;
+
+	public IngredientController(RecipeService recipeService, IngredientService ingredientService) {
 		this.recipeService = recipeService;
+		this.ingredientService = ingredientService;
 	}
 
 	@GetMapping
@@ -21,5 +25,16 @@ public class IngredientController {
 	public String listIngredients(@PathVariable String recipeId, Model model) {
 		model.addAttribute("recipe", recipeService.findCommandById(Long.valueOf(recipeId)));
 		return "recipe/ingredient/list";
+	}
+
+	@GetMapping
+	@RequestMapping("/recipe/{recipeId}/ingredient/{ingredientId}/show")
+	public String showIngredient(@PathVariable String recipeId,
+	                             @PathVariable String ingredientId,
+	                             Model model) {
+		model.addAttribute("ingredient", ingredientService.findCommandByRecipeIdAndIngredientId(
+				Long.valueOf(recipeId), Long.valueOf(ingredientId)
+		));
+		return "recipe/ingredient/show";
 	}
 }
