@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.chrispeng.recipe.commands.IngredientCommand;
 import me.chrispeng.recipe.commands.RecipeCommand;
 import me.chrispeng.recipe.commands.UnitOfMeasureCommand;
+import me.chrispeng.recipe.domain.Ingredient;
 import me.chrispeng.recipe.service.IngredientService;
 import me.chrispeng.recipe.service.RecipeService;
 import me.chrispeng.recipe.service.UnitOfMeasureService;
@@ -79,4 +80,9 @@ public class IngredientController {
 		return "recipe/ingredient/ingredientform";
 	}
 
+	@GetMapping("/recipe/{recipeId}/ingredient/{ingredientId}/delete")
+	public String deleteIngredient(@PathVariable String recipeId, @PathVariable String ingredientId) {
+		ingredientService.deleteById(Long.valueOf(recipeId), Long.valueOf(ingredientId));
+		return "redirect:/recipe/" + recipeId + "/ingredients";
+	}
 }

@@ -2,6 +2,7 @@ package me.chrispeng.recipe.controllers;
 
 import me.chrispeng.recipe.commands.IngredientCommand;
 import me.chrispeng.recipe.commands.RecipeCommand;
+import me.chrispeng.recipe.domain.Ingredient;
 import me.chrispeng.recipe.service.IngredientService;
 import me.chrispeng.recipe.service.RecipeService;
 import me.chrispeng.recipe.service.UnitOfMeasureServiceImpl;
@@ -137,5 +138,13 @@ public class IngredientControllerTest {
 				.andExpect(model().attributeExists("uomList"));
 
 		verify(recipeService, times(1)).findCommandById(anyLong());
+	}
+
+	@Test
+	public void deleteIngredient() throws Exception{
+		mockMvc.perform(get("/recipe/1/ingredient/3/delete"))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/recipe/1/ingredients"));
+		verify(ingredientService, times(1)).deleteById(anyLong(), anyLong());
 	}
 }
