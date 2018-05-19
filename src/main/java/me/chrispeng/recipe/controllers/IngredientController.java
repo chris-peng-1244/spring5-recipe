@@ -2,12 +2,17 @@ package me.chrispeng.recipe.controllers;
 
 import lombok.extern.slf4j.Slf4j;
 import me.chrispeng.recipe.commands.IngredientCommand;
+import me.chrispeng.recipe.commands.RecipeCommand;
+import me.chrispeng.recipe.commands.UnitOfMeasureCommand;
 import me.chrispeng.recipe.service.IngredientService;
 import me.chrispeng.recipe.service.RecipeService;
 import me.chrispeng.recipe.service.UnitOfMeasureService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 @Controller
@@ -48,14 +53,29 @@ public class IngredientController {
 		IngredientCommand ingredientCommand = ingredientService.saveIngredientCommand(command);
 		log.debug("saved recipe id：" + ingredientCommand.getRecipeId());
 		log.debug("saved ingredient id：" + ingredientCommand.getId());
-		return "redirect:recipe/" + ingredientCommand.getRecipeId() + "/ingredient/"
+		return "redirect:/recipe/" + ingredientCommand.getRecipeId() + "/ingredient/"
 				+ ingredientCommand.getId() + "/show";
 	}
 
 	@GetMapping("/recipe/{recipeId}/ingredient/{ingredientId}/update")
-	public String updateIngredient(@PathVariable String recipeId, @PathVariable String ingredientId, Model model) {
+	public String updateIngredientForm(@PathVariable String recipeId, @PathVariable String ingredientId, Model model) {
 		model.addAttribute("ingredient", ingredientService.findCommandByRecipeIdAndIngredientId(Long.valueOf(recipeId), Long.valueOf(ingredientId)));
 		model.addAttribute("uomList", unitOfMeasureService.listAll());
+		return "recipe/ingredient/ingredientform";
+	}
+
+	@GetMapping("/recipe/{recipeId}/ingredient/new")
+	public String createIngredientForm(@PathVariable String recipeId, Model model) {
+		RecipeCommand recipeCommand = recipeService.findCommandById(Long.valueOf(recipeId));
+		// TODO raise exception when null
+
+		IngredientCommand ingredientCommand = new IngredientCommand();
+		ingredientCommand.setRecipeId(recipeCommand.getId());
+		ingredientCommand.setUom(new UnitOfMeasureCommand());
+
+		Set<UnitOfMeasureCommand> uomList = unitOfMeasureService.listAll();
+		model.addAttribute("ingredient", ingredientCommand);
+		model.addAttribute("uomList", uomList);
 		return "recipe/ingredient/ingredientform";
 	}
 
