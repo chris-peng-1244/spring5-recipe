@@ -2,10 +2,13 @@ package me.chrispeng.recipe.controllers;
 
 import lombok.extern.slf4j.Slf4j;
 import me.chrispeng.recipe.commands.RecipeCommand;
+import me.chrispeng.recipe.exceptions.NotFoundException;
 import me.chrispeng.recipe.service.RecipeService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Slf4j
 @Controller
@@ -49,5 +52,16 @@ public class RecipeController {
 		Long idValue = Long.valueOf(id);
 		recipeService.deleteById(idValue);
 		return "redirect:/";
+	}
+
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ExceptionHandler(NotFoundException.class)
+	public ModelAndView handleNotFound(Exception exception) {
+		log.error("Handling not found exception");
+		log.error(exception.getMessage());
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("404");
+		modelAndView.addObject("exception", exception);
+		return modelAndView;
 	}
 }

@@ -3,6 +3,7 @@ package me.chrispeng.recipe.service;
 import me.chrispeng.recipe.converters.RecipeCommandToRecipe;
 import me.chrispeng.recipe.converters.RecipeToRecipeCommand;
 import me.chrispeng.recipe.domain.Recipe;
+import me.chrispeng.recipe.exceptions.NotFoundException;
 import me.chrispeng.recipe.repositories.RecipeRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -62,6 +63,15 @@ public class RecipeServiceImplTest {
 		verify(recipeRepository, times(1)).findById(anyLong());
 		verify(recipeRepository, never()).findAll();
 	}
+
+	@Test(expected = NotFoundException.class)
+	public void findByIdNotFound() {
+		Optional<Recipe> recipeOptional = Optional.empty();
+		when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+		recipeService.findById(1L);
+		fail("Should not reach here");
+	}
+
 
 	@Test
 	public void deleteById() {
